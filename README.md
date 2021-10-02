@@ -15,9 +15,8 @@ I'm sending this data to domoticz
 - [ ] hours left to coal refill
 - [ ] homeassistant support
 
-### Installation instructions below are very low quality! Do not blindly copy-paste them, it will not work!
-
 # Installation
+### Installation instructions below are very low quality! Do not blindly copy-paste them, it will not work!
 ```bash
 pip install -r requirements.txt
 su - postgres
