@@ -9,12 +9,13 @@ It's small script I wrote in order to process data read from iNode Energy Meter 
 I'm using this energy meter to count how many fuel my stove has used
 I'm sending this data to domoticz
 
-# TODOs
-- [ ] previous month coal usage
+# TODOs (in order of priority)
+- [ ] send data to domoticz
 - [ ] coal left in fuel container
 - [ ] days left to coal refill
 - [ ] hours left to coal refill
-- [ ] homeassistant support
+- [ ] previous month coal usage
+- [ ] send data to homeassistant
 
 # Installation
 ### Installation instructions below are very low quality! Do not blindly copy-paste them, it will not work!
