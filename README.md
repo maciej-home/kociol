@@ -10,7 +10,7 @@ I'm using this energy meter to count how many fuel my stove has used
 I'm sending this data to domoticz
 
 # TODOs (in order of priority)
-- [ ] send data to domoticz
+- [x] send data to domoticz
 - [ ] coal left in fuel container
 - [ ] days left to coal refill
 - [ ] hours left to coal refill
