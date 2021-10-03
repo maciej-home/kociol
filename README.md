@@ -4,6 +4,8 @@ If you have some suggestions, please open a github issue. Thank you :)
 Please note that I don't give any guarantees nor I take responsibility for using anything in this repo :)  
 Some parts of code (e.g. comments) may be in Polish. Sorry for that
 
+I'm also using this repo for learning git, so please report git-related issues too :) 
+
 # What this program does?
 It's small script I wrote in order to process data read from iNode Energy Meter by official bash script  
 I'm using this energy meter to count how many fuel my stove has used
