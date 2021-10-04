@@ -31,11 +31,17 @@ with psycopg.connect(f'dbname={config.db_name} user={config.db_user} password={c
 
         cur.execute(f'''SELECT measurement FROM test_table WHERE measurement_time >= '{previous_month_first_day}'
         ORDER BY measurement_time, measurement_id, measurement LIMIT 1''')
-        previous_month_start_impulses = cur.fetchone()[0]
+        try:
+            previous_month_start_impulses = cur.fetchone()[0]
+        except TypeError:
+            previous_month_start_impulses = 0
 
         cur.execute(f'''SELECT measurement FROM test_table WHERE measurement_time <= '{previous_month_last_day}'
         ORDER BY measurement_time DESC, measurement_id DESC, measurement DESC LIMIT 1''')
-        previous_month_end_impulses = cur.fetchone()[0]
+        try:
+            previous_month_end_impulses = cur.fetchone()[0]
+        except TypeError:
+            previous_month_end_impulses = 0
 
 ### Calculate used fuel etc. and send to domoticz
 
