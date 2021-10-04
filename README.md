@@ -16,7 +16,7 @@ I'm sending this data to domoticz
 - [ ] coal left in fuel container
 - [ ] days left to coal refill
 - [ ] hours left to coal refill
-- [ ] previous month coal usage
+- [x] previous month coal usage
 - [ ] send data to homeassistant
 
 # Installation
