@@ -41,6 +41,7 @@ with psycopg.connect(f'dbname={config.db_name} user={config.db_user} password={c
         try:
             previous_month_end_impulses = cur.fetchone()[0]
         except TypeError:
+            previous_month_start_impulses = 0
             previous_month_end_impulses = 0
 
 ### Calculate used fuel etc. and send to domoticz
