@@ -11,7 +11,7 @@ time_now_datetime = datetime.now()
 time_now_string = time_now_datetime.strftime('%Y-%m-%d %H:%M:%S.%f')
 time_24h_before_now = (time_now_datetime - timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S.%f')
 
-with psycopg.connect('dbname=test user=test_user password=test host=localhost') as conn:
+with psycopg.connect(f'dbname={config.db_name} user={config.db_user} password={config.db_pass} host={config.db_host}') as conn:
     with conn.cursor() as cur:
         cur.execute(f'''
         INSERT INTO test_table (measurement_time, measurement)
