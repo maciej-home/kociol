@@ -5,6 +5,7 @@ import psycopg
 import config
 
 ### Insert measurement to database, retrieve data needed for further calculations
+
 measurement = int(argv[1])
 time_now_datetime = datetime.now()
 time_now_string = time_now_datetime.strftime('%Y-%m-%d %H:%M:%S.%f')
