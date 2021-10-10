@@ -81,6 +81,7 @@ if config.domoticz_enabled:
     requests.get(f'{config.domoticz_url}/json.htm?type=command&param=udevice&idx={config.domoticz_left_in_tray_idx}&nvalue=0&svalue={round(left_in_tray, 1)}')
     requests.get(f'{config.domoticz_url}/json.htm?type=command&param=udevice&idx={config.domoticz_left_days_idx}&nvalue=0&svalue={round(left_days, 1)}')
     requests.get(f'{config.domoticz_url}/json.htm?type=command&param=udevice&idx={config.domoticz_left_hours_idx}&nvalue=0&svalue={round(left_hours, 1)}')
+
     if previous_month_available:
         # noinspection PyUnboundLocalVariable
         requests.get(f'{config.domoticz_url}/json.htm?type=command&param=udevice&idx={config.domoticz_previous_month_idx}&nvalue=0&svalue={round(coal_previous_month, 1)}')
