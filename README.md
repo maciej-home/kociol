@@ -34,4 +34,10 @@ CREATE TABLE test_table (
 	measurement_time timestamp,
 	measurement integer
 );
+
+CREATE TABLE tray_table (
+   add_id SERIAL PRIMARY KEY,
+   add_time timestamp,
+   added integer
+);
 ```

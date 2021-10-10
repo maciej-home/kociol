@@ -12,3 +12,4 @@ domoticz_url = 'http://127.0.0.1:8080'
 domoticz_last24h_idx = 236
 domoticz_season_idx = 235
 domoticz_previous_month_idx = 455
+domoticz_left_in_tray_idx = 237
