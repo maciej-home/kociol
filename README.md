@@ -13,9 +13,9 @@ I'm sending this data to domoticz
 
 # TODOs (in order of priority)
 - [x] send data to domoticz
-- [ ] coal left in fuel container
-- [ ] days left to coal refill
-- [ ] hours left to coal refill
+- [x] coal left in fuel container
+- [x] days left to coal refill
+- [x] hours left to coal refill
 - [x] previous month coal usage
 - [ ] send data to homeassistant
 
