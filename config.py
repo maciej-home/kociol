@@ -15,3 +15,4 @@ domoticz_previous_month_idx = 455
 domoticz_left_in_tray_idx = 237
 domoticz_left_days_idx = 240
 domoticz_left_hours_idx = 245
+domoticz_add_switch_idx = 239
