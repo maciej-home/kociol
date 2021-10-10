@@ -61,11 +61,15 @@ last24h_impulses = measurement - last_24h_start_impulses
 coal_last24h = last24h_impulses * config.ratio
 last72h_impulses = measurement - last_72h_start_impulses
 coal_last72h = last72h_impulses * config.ratio
+coal_avg_per_day = coal_last72h / 3
 
 added_coal_sum = 0
 for i in added_coal_history:
     added_coal_sum += i[0]
 left_in_tray = added_coal_sum - coal_season
+
+left_days = left_in_tray / coal_avg_per_day
+left_hours = left_days * 24
 
 if previous_month_available:
     previous_month_impulses = previous_month_end_impulses - previous_month_start_impulses
@@ -75,6 +79,8 @@ if config.domoticz_enabled:
     requests.get(f'{config.domoticz_url}/json.htm?type=command&param=udevice&idx={config.domoticz_season_idx}&nvalue=0&svalue={round(coal_season, 1)}')
     requests.get(f'{config.domoticz_url}/json.htm?type=command&param=udevice&idx={config.domoticz_last24h_idx}&nvalue=0&svalue={round(coal_last24h, 1)}')
     requests.get(f'{config.domoticz_url}/json.htm?type=command&param=udevice&idx={config.domoticz_left_in_tray_idx}&nvalue=0&svalue={round(left_in_tray, 1)}')
+    requests.get(f'{config.domoticz_url}/json.htm?type=command&param=udevice&idx={config.domoticz_left_days_idx}&nvalue=0&svalue={round(left_days, 1)}')
+    requests.get(f'{config.domoticz_url}/json.htm?type=command&param=udevice&idx={config.domoticz_left_hours_idx}&nvalue=0&svalue={round(left_hours, 1)}')
     if previous_month_available:
         # noinspection PyUnboundLocalVariable
         requests.get(f'{config.domoticz_url}/json.htm?type=command&param=udevice&idx={config.domoticz_previous_month_idx}&nvalue=0&svalue={round(coal_previous_month, 1)}')
