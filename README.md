@@ -1,34 +1,26 @@
-# Important info
-Everything in this repo and organization is what I'm using in my `"smart" home` system. It's mostly heavily tailored for my usage, but I will be happy if you find it useful  
-If you have some suggestions, please open a github issue. Thank you :)  
-Please note that I don't give any guarantees nor I take responsibility for using anything in this repo :)  
-Some parts of code (e.g. comments) may be in Polish. Sorry for that
+*NOTE: This readme is currenly available only in polish. You can check `README_OLD_EN.md` for english version, but installation instructions there are really low quality*
 
-I'm also using this repo for learning git, so please report git-related issues too :) 
-
-# What this program does?
-It's small script I wrote in order to process data read from iNode Energy Meter by official bash script  
-I'm using this energy meter to count how many fuel my stove has used
-I'm sending this data to domoticz
-
-# TODOs (in order of priority)
-- [x] send data to domoticz
-- [x] coal left in fuel container
-- [x] days left to coal refill
-- [x] hours left to coal refill
-- [x] previous month coal usage
-- [ ] send data to homeassistant
-
-# Installation
-### Installation instructions below are very low quality! Do not blindly copy-paste them, it will not work!
+# Instalacja i konfiguracja
+## Baza PostgreSQL
+### Instalacja
 ```bash
-pip install -r requirements.txt
-su - postgres
+sudo apt update
+sudo apt install postgresql
+```
+Należy potwierdzić instalację wpisując `Y` (lub `T` w polskiej wersji językowej)  
+Może wyświetlić się czerwony tekst mówiący że baza nie jest uruchomiona - nie trzeba się tym martwić
+### Konfiguracja
+```bash
+sudo su - postgres
 createuser --pwprompt kociol_user
+```
+Należy wprowadzić i zapisać/zapamiętać hasło do bazy danych
+```bash
 createdb --encoding=UTF8 --owner=kociol_user kociol
+psql -h localhost -d kociol -U kociol_user
 ```
-psql
-```
+Powinien wyświetlić się napis `kociol=>`, należy wpisać: (i zatwierdzić enterem)
+```sql
 CREATE TABLE test_table (
 	measurement_id SERIAL PRIMARY KEY,
 	measurement_time timestamp,
@@ -41,3 +33,87 @@ CREATE TABLE tray_table (
    added integer
 );
 ```
+Powinno wyświetlić się:
+```sql
+CREATE TABLE
+CREATE TABLE
+```
+Należy wpisać (dwa razy)
+```bash
+exit
+exit
+```
+
+## Skrypt do kotła
+### Instalacja
+Najpierw należy pobrać potrzebne zależności:
+```
+sudo apt install git python3 python3-pip
+```
+
+Najłatwiej kod będzie pobrać z githuba (polecenie utworzy folder `kociol` w aktualnym folderze):
+```bash
+git clone https://github.com/maciej-home/kociol
+cd kociol
+```
+Ewentualnie można użyć edytora (np. `nano`) i skopiować zawartość plików
+
+Należy zezwolić na uruchamianie skryptu "dodającego węgiel do podajnika":
+```bash
+chmod +x add.py
+```
+
+Należy również pobrać potrzebne moduły pythona:
+```
+pip install -r requirements.txt
+```
+
+### Konfiguracja
+
+#### Domoticz
+Należy stworzyć w domoticzu urządzenia tak jak na screenach:
+`domoticz_last24h_idx`  
+![](img/domoticz_last24h.png)  
+`domoticz_season_idx`  
+![](img/domoticz_season.png)  
+`domoticz_previous_month_idx`  
+![](img/domoticz_previous_month.png)  
+`domoticz_left_in_tray_idx`  
+![](img/domoticz_left_in_tray.png)  
+`domoticz_left_days_idx`  
+![](img/domoticz_left_days.png)  
+`domoticz_left_hours_idx`  
+![](img/domoticz_left_hours.png)  
+`domoticz_add_switch_idx`  
+![](img/domoticz_add_switch.png)  
+![](img/domoticz_add_switch_config.png)  
+
+#### Plik konfiguracyjny
+
+Należy edytować plik `config.py`, na przykład edytorem `nano`:
+```
+nano config.py
+```
+Należy zamienić wartości:
+`ratio` - kilogramy węgla wrzucane na każdy impuls - najprościej dojść do tego metodą prób i błędów  
+`db_pass` - hasło do bazy danych  
+`*_idx` - na idx odpowiednich urządzeń stworzonych w domoticzu
+
+#### Zapisywanie impulsów
+Należy uruchomić skrypt `main.py` w sposób `main.py <wartość>`, gdzie `wartość` to aktualna ilość impulsów odczytana z czujnika  
+
+W wypadku korzystania z oryginalnego skryptu iNode można to zrobić wstawiając linię
+```
+python3 /home/pi/kociol/main.py $DECIM
+```
+po fragmencie:
+```
+HEXIM=`echo $mp  | awk '{ print $10$9$8$7 }'`
+#echo TOTAL POWER $HEXIM
+DECIM=`echo "ibase=16; $HEXIM"|bc`
+#echo TOTAL POWER $DECIM
+CALCIM=`echo $DECIM $CONST | awk '{ kWh=($1/$2); printf"%0.3f\n", kWh  }'`
+#echo CALCIM $CALCIM
+TODOMOTICZ=`echo $CALCIM | sed -r 's/\.//g'`
+```
+Jeśli kod został pobrany/skopiowany do innego folderu, należy zmienić ścieżkę `/home/pi/kociol/main.py` na odpowiednią
